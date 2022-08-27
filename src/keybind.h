@@ -2,6 +2,7 @@
 #define KEYBIND_H
 #include "config.h"
 #include <Arduino.h>
+#include <map>
 
 
 
@@ -155,9 +156,79 @@ const uint8_t K_NUM_PLUS = 0xDF;
 const uint8_t K_NUM_ENTER = 0xE0;
 const uint8_t K_NUM_PERIOD = 0xEB;
 
+//  Low level key report: up to 6 keys and shift, ctrl etc at once
+typedef struct KeyReport
+{
+    uint8_t modifiers;
+    uint8_t reserved;
+    uint8_t keys[6];
+    KeyReport();
+    KeyReport(uint8_t key);
+    KeyReport(uint8_t mod, uint8_t key);
+}KeyReport;
 
 
- 
 
+const uint8_t LEFT_CTRL = 0b00000001;
+const uint8_t LEFT_SHIFT = 0b00000010;
+const uint8_t LEFT_OPT = 0b00000100;
+const uint8_t LEFT_CMD = 0b00001000;
+const uint8_t RIGHT_CTRL = 0b00010000;
+const uint8_t RIGHT_SHIFT = 0b00100000;
+const uint8_t RIGHT_OPT = 0b01000000;
+const uint8_t RIGHT_CMD = 0b10000000;
+
+static std::map<wchar_t, KeyReport> keybind = {
+    { L'æ', KeyReport(LEFT_OPT, K_A) },                  // opt + a
+    { L'Æ', KeyReport(LEFT_OPT | LEFT_SHIFT, K_A) },     // opt + shif + a
+    { L'Â', KeyReport(LEFT_OPT, K_Z) },                  // opt + z
+    { L'Å', KeyReport(LEFT_OPT | LEFT_SHIFT, K_Z) },     // opt + shift + z
+    { L'ê', KeyReport(LEFT_OPT, K_E) },                  // opt + e
+    { L'Ê', KeyReport(LEFT_OPT | LEFT_SHIFT, K_E) },     // opt + shift + e
+    { L'®', KeyReport(LEFT_OPT, K_R) },                  // opt + r
+    { L'‚', KeyReport(LEFT_OPT | LEFT_SHIFT, K_R) },     // opt + shift + r
+    { L'†', KeyReport(LEFT_OPT, K_T) },                  // opt + t
+    { L'™', KeyReport(LEFT_OPT | LEFT_SHIFT, K_T) },     // opt + shift + t
+    { L'º', KeyReport(LEFT_OPT, K_U) },                  // opt + u
+    { L'ª', KeyReport(LEFT_OPT | LEFT_SHIFT, K_U) },     // opt + shift + u
+    { L'î', KeyReport(LEFT_OPT, K_I) },                  // opt + i
+    { L'ï', KeyReport(LEFT_OPT | LEFT_SHIFT, K_I) },     // opt + shift + i
+    { L'œ', KeyReport(LEFT_OPT, K_O) },                  // opt + o
+    { L'Œ', KeyReport(LEFT_OPT | LEFT_SHIFT, K_O) },     // opt + shift + o    
+    { L'π', KeyReport(LEFT_OPT, K_P) },                  // opt + p
+    { L'∏', KeyReport(LEFT_OPT | LEFT_SHIFT, K_P) },     // opt + shift + p
+    { L'‡', KeyReport(LEFT_OPT, K_Q) },                  // opt + q
+    { L'Ω', KeyReport(LEFT_OPT | LEFT_SHIFT, K_Q) },     // opt + shift + q      
+    { L'Ò', KeyReport(LEFT_OPT, K_S) },                  // opt + s
+    { L'∑', KeyReport(LEFT_OPT | LEFT_SHIFT, K_S) },     // opt + shift + s
+    { L'∂', KeyReport(LEFT_OPT, K_D) },                  // opt + d
+    { L'∆', KeyReport(LEFT_OPT | LEFT_SHIFT, K_D) },     // opt + shift + d        
+    { L'ƒ', KeyReport(LEFT_OPT, K_F) },                  // opt + f
+    { L'·', KeyReport(LEFT_OPT | LEFT_SHIFT, K_F) },     // opt + shift + f
+    { L'ﬁ', KeyReport(LEFT_OPT, K_G) },                  
+    { L'ﬂ', KeyReport(LEFT_OPT | LEFT_SHIFT, K_G) },     
+    { L'Ì', KeyReport(LEFT_OPT, K_H) },                  
+    { L'Î', KeyReport(LEFT_OPT | LEFT_SHIFT, K_H) },
+    { L'Ï', KeyReport(LEFT_OPT, K_J) },                  
+    { L'Í', KeyReport(LEFT_OPT | LEFT_SHIFT, K_J) }, 
+    { L'È', KeyReport(LEFT_OPT, K_K) },                  
+    { L'Ë', KeyReport(LEFT_OPT | LEFT_SHIFT, K_K) }, 
+    { L'¬', KeyReport(LEFT_OPT, K_L) },                  
+    { L'|', KeyReport(LEFT_OPT | LEFT_SHIFT, K_L) },
+    { L'µ', KeyReport(LEFT_OPT, K_M) },                  
+    { L'Ó', KeyReport(LEFT_OPT | LEFT_SHIFT, K_M) },
+    { L'‹', KeyReport(LEFT_OPT, K_W) },                  
+    { L'›', KeyReport(LEFT_OPT | LEFT_SHIFT, K_W) },
+    { L'≈', KeyReport(LEFT_OPT, K_X) },                  
+    { L'⁄', KeyReport(LEFT_OPT | LEFT_SHIFT, K_X) },
+    { L'©', KeyReport(LEFT_OPT, K_C) },                  
+    { L'¢', KeyReport(LEFT_OPT | LEFT_SHIFT, K_C) },
+    { L'◊', KeyReport(LEFT_OPT, K_V) },                  
+    { L'√', KeyReport(LEFT_OPT | LEFT_SHIFT, K_V) },
+    { L'ß', KeyReport(LEFT_OPT, K_B) },                  
+    { L'∫', KeyReport(LEFT_OPT | LEFT_SHIFT, K_B) },
+    { L'~', KeyReport(LEFT_OPT, K_N) },                  
+    { L'ı', KeyReport(LEFT_OPT | LEFT_SHIFT, K_N) },
+};
 #endif
 
